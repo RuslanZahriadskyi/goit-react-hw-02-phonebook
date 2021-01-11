@@ -26,30 +26,6 @@ class App extends Component {
     this.setState({ [name]: value });
   };
 
-  findContact = e => {
-    const { filter, contacts } = this.state;
-    const { name, value } = e.currentTarget;
-    this.setState({ [name]: value });
-    contacts
-      .filter(el => {
-        const find = el.name.toLowerCase().indexOf(filter.toLowerCase());
-        // console.log(find);
-        return find === -1 ? false : true;
-      })
-      .map(el => (
-        <li key={uuidv4()}>
-          <p>
-            {el.name}: {el.number}
-          </p>
-          {/* <span>{el.name}:</span>
-          <span>{el.number}</span> */}
-        </li>
-      ));
-    // contacts.some(el => {
-    //   console.log(el.includes(filter));
-    // });
-  };
-
   handelSubmit = event => {
     event.preventDefault();
 
@@ -113,16 +89,25 @@ class App extends Component {
               type="text"
               name="filter"
               value={filter}
-              onChange={this.findContact}
+              onChange={this.newContact}
             ></input>
           </label>
           <ul>
-            {contacts.map(el => (
-              <li key={uuidv4()}>
-                <span>{el.name}:</span>
-                <span>{el.number}</span>
-              </li>
-            ))}
+            {contacts
+              .filter(el => {
+                const findConact = el.name
+                  .toLowerCase()
+                  .indexOf(filter.toLowerCase());
+                console.log(findConact);
+                return findConact === -1 ? false : true;
+              })
+              .map(el => (
+                <li key={uuidv4()}>
+                  <p>
+                    {el.name}: {el.number}
+                  </p>
+                </li>
+              ))}
           </ul>
         </div>
       </div>
