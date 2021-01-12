@@ -1,6 +1,5 @@
 import { Component } from 'react';
-import { v4 as uuidv4 } from 'uuid';
-import './App.css';
+import s from './App.module.css';
 import ContactForm from './components/ContactForm';
 import Filter from './components/Filter';
 import ContactList from './components/ContactList';
@@ -10,105 +9,67 @@ class App extends Component {
     super();
     this.state = {
       contacts: [
-        { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-        { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-        { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-        { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+        { id: 'id-1', name: 'Rosie Simpson', number: '+38-099-12-15-567' },
+        { id: 'id-2', name: 'Hermione Kline', number: '+48-050-04-98-001' },
+        { id: 'id-3', name: 'Eden Clements', number: '+42-078-79-58-520' },
+        { id: 'id-4', name: 'Annie Copeland', number: '+72-098-07-27-637' },
       ],
       filter: '',
-      name: '',
-      number: '',
     };
   }
 
-  newContact = e => {
+  handlerFilter = e => {
     const { name, value } = e.currentTarget;
     this.setState({ [name]: value });
   };
 
-  handelSubmit = event => {
-    event.preventDefault();
-
-    const { name, contacts, number } = this.state;
-
-    const id = uuidv4();
-
-    const newContacts = contacts.concat({ id: id, name, number });
-
-    this.setState(prevState => {
-      return { ...prevState, contacts: newContacts };
-    });
-
-    this.reset();
+  onDeleteContact = contactId => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
+    }));
   };
 
-  reset = () => {
-    this.setState({ name: '', number: '' });
+  formSubmit = newContact => {
+    const { contacts } = this.state;
+
+    if (
+      contacts.some(
+        el => el.name.toLowerCase() === newContact.name.toLowerCase(),
+      )
+    ) {
+      return alert(`${newContact.name} is already in contacts`);
+    }
+
+    if (
+      contacts.some(
+        el => el.number.toLowerCase() === newContact.number.toLowerCase(),
+      )
+    ) {
+      return alert(`${newContact.number} is already in contacts`);
+    }
+
+    const innitialNewContact = contacts.concat(newContact);
+
+    this.setState(prevState => {
+      return { ...prevState, contacts: innitialNewContact };
+    });
   };
 
   render() {
-    const { name, contacts, number, filter } = this.state;
+    const { contacts, filter } = this.state;
 
     return (
       <div>
-        <h1>Phonebook</h1>
-        <div>
-          <form onSubmit={this.handelSubmit}>
-            <label>
-              Name
-              <input
-                type="text"
-                name="name"
-                pattern="[A-Za-z]{1, 28}"
-                placeholder="Tomy Brait"
-                required
-                value={name}
-                onChange={this.newContact}
-              ></input>
-            </label>
-            <label>
-              Number
-              <input
-                type="tel"
-                placeholder="123-456-7890"
-                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                required
-                name="number"
-                value={number}
-                onChange={this.newContact}
-              ></input>
-            </label>
-            <button type="submit">Add contact</button>
-          </form>
-        </div>
-        <div>
-          <h2>Contacts</h2>
-          <h3>Find contacts by name</h3>
-          <label>
-            <input
-              type="text"
-              name="filter"
-              value={filter}
-              onChange={this.newContact}
-            ></input>
-          </label>
-          <ul>
-            {contacts
-              .filter(el => {
-                const findConact = el.name
-                  .toLowerCase()
-                  .indexOf(filter.toLowerCase());
-                console.log(findConact);
-                return findConact === -1 ? false : true;
-              })
-              .map(el => (
-                <li key={uuidv4()}>
-                  <p>
-                    {el.name}: {el.number}
-                  </p>
-                </li>
-              ))}
-          </ul>
+        <h1 className={s.title}>Phonebook</h1>
+        <ContactForm onSubmit={this.formSubmit} />
+        <div className={s.container}>
+          <h2 className={s.contacts__title}>Contacts</h2>
+          <Filter handlerFilter={this.handlerFilter} filterValue={filter} />
+          <ContactList
+            contacts={contacts}
+            filterValue={filter}
+            deleteCOntact={this.onDeleteContact}
+          />
         </div>
       </div>
     );
