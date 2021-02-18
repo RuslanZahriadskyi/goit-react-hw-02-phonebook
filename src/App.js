@@ -60,6 +60,7 @@ class App extends Component {
 
     return (
       <div>
+        <div></div>
         <h1 className={s.title}>Phonebook</h1>
         <ContactForm onSubmit={this.formSubmit} />
         <div className={s.container}>
