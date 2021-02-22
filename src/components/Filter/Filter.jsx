@@ -1,4 +1,9 @@
+import PropTypes from 'prop-types';
+
 function Filter({ handlerFilter, filterValue }) {
+  console.log(handlerFilter);
+  console.log(filterValue);
+
   return (
     <>
       <h3>Find contacts by name</h3>
@@ -11,5 +16,10 @@ function Filter({ handlerFilter, filterValue }) {
     </>
   );
 }
+
+Filter.propTypes = {
+  handlerFilter: PropTypes.func.isRequired,
+  filterValue: PropTypes.string.isRequired,
+};
 
 export default Filter;

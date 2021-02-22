@@ -26,9 +26,9 @@ class ContactForm extends Component {
 
     const newContacts = { id: contactId, name, number };
 
-    this.reset();
-
     this.props.onSubmit(newContacts);
+
+    this.reset();
   };
 
   reset = () => {
