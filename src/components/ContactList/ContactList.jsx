@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { v4 as uuidv4 } from 'uuid';
 import s from './ContactList.module.css';
 
 function ContactList({ contacts, filterValue, deleteContact }) {
@@ -13,7 +12,7 @@ function ContactList({ contacts, filterValue, deleteContact }) {
           return findContact === -1 ? false : true;
         })
         .map(({ name, number, id }) => (
-          <li key={uuidv4()} className={s.contact__info}>
+          <li key={id} className={s.contact__info}>
             <p className={s.contact}>
               <span className={s.contact__name}>{name}:</span>
               <span className={s.contact__number}>{number}</span>

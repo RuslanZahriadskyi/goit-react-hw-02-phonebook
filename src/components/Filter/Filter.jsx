@@ -1,9 +1,6 @@
 import PropTypes from 'prop-types';
 
 function Filter({ handlerFilter, filterValue }) {
-  console.log(handlerFilter);
-  console.log(filterValue);
-
   return (
     <>
       <h3>Find contacts by name</h3>

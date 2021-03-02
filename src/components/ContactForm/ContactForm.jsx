@@ -46,7 +46,7 @@ class ContactForm extends Component {
               type="text"
               name="name"
               className={s.label__input}
-              pattern="[A-Za-z]{1, 28}"
+              pattern="[A-Za-z]{1,}\s[A-Za-z]{1,}"
               placeholder="Format: Tomy Brait"
               required
               value={name}
